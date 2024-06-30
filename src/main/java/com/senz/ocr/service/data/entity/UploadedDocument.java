@@ -2,11 +2,16 @@ package com.senz.ocr.service.data.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.magma.util.MagmaDateTimeDeserializer;
+import com.magma.util.MagmaDateTimeSerializer;
 import com.senz.ocr.service.data.support.ExtractionStatus;
-import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,9 +24,8 @@ public class UploadedDocument {
 
     private String name;
 
-    @JsonIgnore
     @CreatedDate
-    private DateTime uploadedDate;
+    private LocalDateTime uploadedDate;
 
     private String pdfPath;
 
@@ -51,11 +55,11 @@ public class UploadedDocument {
         this.name = name;
     }
 
-    public DateTime getUploadedDate() {
+    public LocalDateTime getUploadedDate() {
         return uploadedDate;
     }
 
-    public void setUploadedDate(DateTime uploadedDate) {
+    public void setUploadedDate(LocalDateTime uploadedDate) {
         this.uploadedDate = uploadedDate;
     }
 

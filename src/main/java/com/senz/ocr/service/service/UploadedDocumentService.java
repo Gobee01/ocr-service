@@ -67,7 +67,7 @@ public class UploadedDocumentService {
             pageSize = Integer.MAX_VALUE;
         }
 
-        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by(Sort.Direction.DESC, "documentId"));
         returnPage = uploadedDocumentRepository.findAllBy(pageRequest);
 
         return returnPage;
