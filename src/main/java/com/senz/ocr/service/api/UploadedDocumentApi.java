@@ -6,7 +6,6 @@ import com.senz.ocr.service.data.entity.UploadedDocument;
 import com.senz.ocr.service.service.UploadedDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
