@@ -1,13 +1,10 @@
 package com.senz.ocr.service.data.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.magma.util.MagmaDateTimeDeserializer;
-import com.magma.util.MagmaDateTimeSerializer;
 import com.senz.ocr.service.data.support.ExtractionStatus;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,6 +17,7 @@ public class UploadedDocument {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private Integer documentId;
 
     private String name;

@@ -9,7 +9,8 @@ public enum OcrStatus {
     DB_ERROR("ESA1003", "Unknown error occurred in database operation"),
     DONT_HAVE_PERMISSION("ESA1004", "You don't have Permission to do this"),
     INVALID_DATA("ESA1005", "Invalid Data"),
-    DOCUMENT_NOT_FOUND("ESA1010", "Document not found"),;
+    DOCUMENT_NOT_FOUND("ESA1010", "Document not found"),
+    EXTRACTION_DATA_NOT_FOUND("ESA1011", "Extraction Data not found");
 
     private final String statusCode;
     private final String statusDescription;

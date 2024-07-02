@@ -1,6 +1,5 @@
 package com.senz.ocr.service.service;
 
-import com.magma.util.MagmaUtil;
 import com.senz.ocr.service.data.dto.UploadedDocumentDTO;
 import com.senz.ocr.service.data.entity.DocumentCounter;
 import com.senz.ocr.service.data.entity.UploadedDocument;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +28,7 @@ public class UploadedDocumentService {
     @Autowired
     DocumentCounterRepository documentCounterRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UploadedDocument.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UploadedDocumentService.class);
 
     public Integer getLastDocumentId(String counterName) {
         DocumentCounter counter = documentCounterRepository.findByUniqueName(counterName);
