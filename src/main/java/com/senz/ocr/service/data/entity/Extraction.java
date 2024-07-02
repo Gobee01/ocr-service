@@ -1,5 +1,6 @@
 package com.senz.ocr.service.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,9 +25,11 @@ public class Extraction {
 
     private String documentName;
 
+    @JsonIgnore
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
