@@ -49,7 +49,7 @@ public class FileUploadController {
     private String generateShortUniqueName() {
         // Use current timestamp and a random number to generate a short unique name
         long timestamp = System.currentTimeMillis();
-        int randomNum = (int) (Math.random() * 10000);
+        int randomNum = (int) (Math.random() * 100);
         return timestamp + "-" + randomNum;
     }
 }
