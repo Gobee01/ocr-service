@@ -13,6 +13,11 @@ public interface UploadedDocumentRepository extends MongoRepository<UploadedDocu
 
     UploadedDocument findUploadedDocumentById(String id);
 
+    UploadedDocument findByDocumentId(Integer documentId);
+
     Page<UploadedDocument> findAllBy(Pageable pageable);
 
+    Boolean existsByStatus(ExtractionStatus status);
+
+    UploadedDocument findFirstByStatusOrderByIdAsc(ExtractionStatus status);
 }

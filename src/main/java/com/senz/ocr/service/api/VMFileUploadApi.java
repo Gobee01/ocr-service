@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)  //TODO: Need To Specify Domain
 @RequestMapping("/api")
-public class VMFileUploadController {
+public class VMFileUploadApi {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -33,7 +33,7 @@ public class VMFileUploadController {
     @Value("${vm.upload-dir}")
     private String vmUploadDir;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VMFileUploadController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VMFileUploadApi.class);
 
     @PostMapping("/uploadVM")
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {

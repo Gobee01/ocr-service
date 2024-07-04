@@ -5,6 +5,7 @@ import com.senz.ocr.service.data.entity.DocumentCounter;
 import com.senz.ocr.service.data.entity.UploadedDocument;
 import com.senz.ocr.service.data.repository.DocumentCounterRepository;
 import com.senz.ocr.service.data.repository.UploadedDocumentRepository;
+import com.senz.ocr.service.data.support.ExtractionEvent;
 import com.senz.ocr.service.data.support.ExtractionStatus;
 import com.senz.ocr.service.util.OcrException;
 import com.senz.ocr.service.util.OcrStatus;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,6 +29,9 @@ public class UploadedDocumentService {
 
     @Autowired
     DocumentCounterRepository documentCounterRepository;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadedDocumentService.class);
 
@@ -82,7 +87,17 @@ public class UploadedDocumentService {
             document.setStatus(ExtractionStatus.IN_QUEUE);
         }
 
-        return uploadedDocumentRepository.save(document);
+        uploadedDocumentRepository.save(document);
+
+        boolean isExtractionInProgress = uploadedDocumentRepository.existsByStatus(ExtractionStatus.EXTRACTION_IN_PROGRESS);
+        if (!isExtractionInProgress) {
+            // Start the document processing
+            document.setStatus(ExtractionStatus.EXTRACTION_IN_PROGRESS);
+            uploadedDocumentRepository.save(document);
+            this.publisher.publishEvent(new ExtractionEvent(document.getPdfPath(), document.getDocumentId()));
+        }
+
+        return document;
     }
 
     public UploadedDocument updateDocument(UploadedDocumentDTO documentDTO, String documentId) {

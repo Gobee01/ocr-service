@@ -11,12 +11,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)  //TODO: Need To Specify Domain
 @RequestMapping("/api")
-public class FileUploadController {
+public class FileUploadApi {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
