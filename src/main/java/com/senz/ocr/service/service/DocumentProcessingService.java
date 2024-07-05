@@ -79,7 +79,7 @@ public class DocumentProcessingService {
 
                 saveClassificationData(responseDTO.getClassification(), documentId);
                 saveExtractionData(responseDTO.getKey_vlaue_information(), responseDTO.getTable_extraction(), documentId);
-                document.setStatus(ExtractionStatus.VALIDATION_PENDING);
+                document.setStatus(ExtractionStatus.EXTRACTION_COMPLETED);
             } else {
                 LOGGER.debug("Failed Response:" + response);
                 document.setStatus(ExtractionStatus.EXTRACTION_FAILED);
