@@ -39,10 +39,10 @@ public class ExtractionApi {
         return new MagmaResponse<>(extractionService.updateExtraction(extractionDTO, extractionId));
     }
 
-    @RequestMapping(value = "api/extraction/{documentId}", method = RequestMethod.DELETE)
-    public MagmaResponse<String> deleteExtraction(@PathVariable("documentId") Integer documentId) {
-        return new MagmaResponse<>(extractionService.deleteExtraction(documentId));
-    }
+//    @RequestMapping(value = "api/extraction/{documentId}", method = RequestMethod.DELETE)
+//    public MagmaResponse<String> deleteExtraction(@PathVariable("documentId") Integer documentId) {
+//        return new MagmaResponse<>(extractionService.deleteExtraction(documentId));
+//    }
 
     @RequestMapping(value = "api/classification/{documentId}" , method = RequestMethod.GET)
     public MagmaResponse<Classification> getClassification(@PathVariable("documentId") Integer documentId){

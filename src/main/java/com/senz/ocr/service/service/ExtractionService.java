@@ -57,16 +57,13 @@ public class ExtractionService {
         return extractionRepository.save(extraction);
     }
 
-    public String deleteExtraction(Integer documentId) {
+    public void deleteExtraction(Integer documentId) {
         LOGGER.debug("Request to Delete Extraction For DocumentID : {}", documentId);
         Extraction extraction = extractionRepository.findByDocumentId(documentId);
 
-        if (extraction == null) {
-            throw new OcrException(OcrStatus.EXTRACTION_DATA_NOT_FOUND);
+        if (extraction != null) {
+            extractionRepository.delete(extraction);
         }
-
-        extractionRepository.delete(extraction);
-        return "SuccessFully Deleted";
     }
 
     public List<Classification> getAllClassification() {
@@ -88,5 +85,14 @@ public class ExtractionService {
         BeanUtils.copyProperties(classificationDTO, classification);
 
         return classificationRepository.save(classification);
+    }
+
+    public void deleteClassification(Integer documentId) {
+        LOGGER.debug("Request to Delete Classification For DocumentID : {}", documentId);
+        Classification classification = classificationRepository.findByDocumentId(documentId);
+
+        if (classification != null) {
+            classificationRepository.delete(classification);
+        }
     }
 }

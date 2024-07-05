@@ -31,6 +31,9 @@ public class UploadedDocumentService {
     DocumentCounterRepository documentCounterRepository;
 
     @Autowired
+    ExtractionService extractionService;
+
+    @Autowired
     private ApplicationEventPublisher publisher;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadedDocumentService.class);
@@ -121,6 +124,8 @@ public class UploadedDocumentService {
             throw new OcrException(OcrStatus.DOCUMENT_NOT_FOUND);
         }
 
+        extractionService.deleteExtraction(document.getDocumentId());
+        extractionService.deleteClassification(document.getDocumentId());
         uploadedDocumentRepository.delete(document);
         return "SuccessFully Deleted";
     }
