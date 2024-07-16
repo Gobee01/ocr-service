@@ -125,6 +125,7 @@ public class UploadedDocumentService {
         }
 
         extractionService.deleteExtraction(document.getDocumentId());
+        extractionService.deleteKeyValues(document.getDocumentId());
         extractionService.deleteClassification(document.getDocumentId());
         uploadedDocumentRepository.delete(document);
         return "SuccessFully Deleted";

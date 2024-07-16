@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.senz.ocr.service.api.WebSocketApi;
-import com.senz.ocr.service.data.dto.ClassificationDTO;
 import com.senz.ocr.service.data.dto.ProcessPdfResponseDTO;
-import com.senz.ocr.service.data.entity.Classification;
-import com.senz.ocr.service.data.entity.Extraction;
+import com.senz.ocr.service.data.entity.Classifications;
+import com.senz.ocr.service.data.entity.Key_value_informations;
+import com.senz.ocr.service.data.entity.Table_extractions;
 import com.senz.ocr.service.data.entity.UploadedDocument;
-import com.senz.ocr.service.data.repository.ClassificationRepository;
-import com.senz.ocr.service.data.repository.ExtractionRepository;
+import com.senz.ocr.service.data.repository.ClassificationsRepository;
+import com.senz.ocr.service.data.repository.KeyValueInformationsRepository;
+import com.senz.ocr.service.data.repository.TableExtractionsRepository;
 import com.senz.ocr.service.data.repository.UploadedDocumentRepository;
 import com.senz.ocr.service.data.support.ExtractionStatus;
 import org.slf4j.Logger;
@@ -38,10 +39,13 @@ public class DocumentProcessingService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentProcessingService.class);
 
     @Autowired
-    ExtractionRepository extractionRepository;
+    TableExtractionsRepository tableExtractionsRepository;
 
     @Autowired
-    ClassificationRepository classificationRepository;
+    KeyValueInformationsRepository keyValueInformationsRepository;
+
+    @Autowired
+    ClassificationsRepository classificationsRepository;
 
     @Autowired
     UploadedDocumentRepository uploadedDocumentRepository;
@@ -76,9 +80,9 @@ public class DocumentProcessingService {
                         .enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS)
                         .build();
                 ProcessPdfResponseDTO responseDTO = objectMapper.readValue(response.getBody(), ProcessPdfResponseDTO.class);
-
-                saveClassificationData(responseDTO.getClassification(), documentId);
-                saveExtractionData(responseDTO.getKey_vlaue_information(), responseDTO.getTable_extraction(), documentId);
+//
+//                saveClassificationData(responseDTO.getClassification(), documentId);
+//                saveExtractionData(responseDTO.getTable_extraction(), documentId);
                 document.setStatus(ExtractionStatus.EXTRACTION_COMPLETED);
             } else {
                 LOGGER.debug("Failed Response:" + response);
@@ -100,18 +104,24 @@ public class DocumentProcessingService {
     }
 
     private void saveClassificationData(Map<String, Map<String, String>> classificationData, Integer documentId) {
-        Classification classification = new Classification();
-        classification.setDocumentId(documentId);
-        classification.setClassification(classificationData);
-        classificationRepository.save(classification);
+        Classifications classifications = new Classifications();
+        classifications.setDocumentId(documentId.toString());
+        classifications.setUpdatedClassification(classificationData);
+        classificationsRepository.save(classifications);
     }
 
-    private void saveExtractionData(Map<String, List<List<String>>> keyValues, Map<String, Map<String, List<Map<String, Object>>>> tableExtraction, Integer documentId) {
-        Extraction extraction = new Extraction();
-        extraction.setDocumentId(documentId);
-        extraction.setKeyValues(keyValues);
-        extraction.setTableExtraction(tableExtraction);
-        extractionRepository.save(extraction);
+    private void saveExtractionData(Map<String, Map<String, List<Map<String, Object>>>> tableExtraction, Integer documentId) {
+        Table_extractions tableExtractions = new Table_extractions();
+        tableExtractions.setDocumentId(documentId.toString());
+        tableExtractions.setUpdatedExtraction(tableExtraction);
+        tableExtractionsRepository.save(tableExtractions);
+    }
+
+    private void saveKeyValueInfo(Map<String, List<List<String>>> keyValues,Integer documentId) {
+        Key_value_informations keyValueInformations = new Key_value_informations();
+        keyValueInformations.setDocumentId(documentId.toString());
+        keyValueInformations.setUpdatedKeyValueExtraction(keyValues);
+        keyValueInformationsRepository.save(keyValueInformations);
     }
 
     private String extractFilePath(String fullPath) {
