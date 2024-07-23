@@ -16,15 +16,6 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-	<profiles>
-		<profile>
-			<id>custom-server</id>
-			<properties>
-				<server.address>0.0.0.0</server.address>
-				<server.port>81</server.port>
-			</properties>
-		</profile>
-	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
