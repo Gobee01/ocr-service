@@ -1,35 +1,34 @@
 package com.senz.ocr.service.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document
-public class Classification {
+public class Table_extractions {
     @Id
     private String id;
 
-    @Indexed(unique = true)
-    private Integer documentId;
+    private String documentId;
 
     private String documentName;
 
+    @JsonIgnore
     @CreatedDate
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    private Map<String, Map<String, String>> classification;
+    private Map<String, Map<String, List<Map<String, Object>>>> updatedExtraction;
 
     public String getId() {
         return id;
@@ -39,11 +38,11 @@ public class Classification {
         this.id = id;
     }
 
-    public Integer getDocumentId() {
+    public String getDocumentId() {
         return documentId;
     }
 
-    public void setDocumentId(Integer documentId) {
+    public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 
@@ -55,37 +54,24 @@ public class Classification {
         this.documentName = documentName;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public Map<String, Map<String, List<Map<String, Object>>>> getUpdatedExtraction() {
+        return updatedExtraction;
     }
 
-    public Map<String, Map<String, String>> getClassification() {
-        return classification;
-    }
-
-    public void setClassification(Map<String, Map<String, String>> classification) {
-        this.classification = classification;
+    public void setUpdatedExtraction(Map<String, Map<String, List<Map<String, Object>>>> updatedExtraction) {
+        this.updatedExtraction = updatedExtraction;
     }
 
     @Override
     public String toString() {
-        return "Classification{" +
+        return "Extraction{" +
                 ", documentName='" + documentName + '\'' +
-                ", documentId='" + documentId +
-                ", keyValues=" + classification +
+                ", documentId='" + documentId + '\'' +
+                ", tableExtraction=" + updatedExtraction +
                 '}';
     }
-
 }

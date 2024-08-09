@@ -2,19 +2,19 @@ package com.senz.ocr.service.data.dto;
 
 import java.util.Map;
 
-public class ClassificationDTO {
+public class ClassificationsDTO {
 
-    private Integer documentId;
+    private String documentId;
 
     private String documentName;
 
-    private Map<String, Map<String, String>> classification;
+    private Map<String, Map<String, String>> updatedClassification;
 
-    public Integer getDocumentId() {
+    public String getDocumentId() {
         return documentId;
     }
 
-    public void setDocumentId(Integer documentId) {
+    public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 
@@ -26,12 +26,12 @@ public class ClassificationDTO {
         this.documentName = documentName;
     }
 
-    public Map<String, Map<String, String>> getClassification() {
-        return classification;
+    public Map<String, Map<String, String>> getUpdatedClassification() {
+        return updatedClassification;
     }
 
-    public void setClassification(Map<String, Map<String, String>> classification) {
-        this.classification = classification;
+    public void setUpdatedClassification(Map<String, Map<String, String>> updatedClassification) {
+        this.updatedClassification = updatedClassification;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ClassificationDTO {
         return "Classification{" +
                 ", documentName='" + documentName + '\'' +
                 ", documentId='" + documentId +
-                ", keyValues=" + classification +
+                ", keyValues=" + updatedClassification +
                 '}';
     }
 

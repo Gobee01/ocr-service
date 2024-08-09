@@ -20,13 +20,16 @@ public class FileUploadApi {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${vm.upload-dir}")
+    private String vmUploadDir;
+
     @PostMapping("/upload")
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
         Map<String, String> response = new HashMap<>();
 
         try {
-            String uniqueDirName = generateShortUniqueName();
-            File uniqueDir = new File(uploadDir + "/" + uniqueDirName);
+            String uniqueDirName = generateUniqueFileName(file.getOriginalFilename());
+            File uniqueDir = new File(vmUploadDir + "/" + uniqueDirName);
             if (!uniqueDir.exists()) {
                 uniqueDir.mkdirs();
             }
@@ -45,11 +48,11 @@ public class FileUploadApi {
         }
     }
 
-    private String generateShortUniqueName() {
-        // Use current timestamp and a random number to generate a short unique name
+    private String generateUniqueFileName(String originalFileName) {
         long timestamp = System.currentTimeMillis();
-        int randomNum = (int) (Math.random() * 100);
-        return timestamp + "-" + randomNum;
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+        String fileNameWithoutExtension = originalFileName.replace(fileExtension, "");
+        return fileNameWithoutExtension + "_" + timestamp + fileExtension;
     }
 }
 
